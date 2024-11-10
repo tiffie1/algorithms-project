@@ -1,0 +1,11 @@
+vertex1,vertex2
+a,b
+b,s
+s,e
+e,c
+e,f
+c,d
+c,f
+d,f
+d,g
+f,g
