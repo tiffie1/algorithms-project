@@ -1,0 +1,11 @@
+vertex1,vertex2,weight
+a,b,2
+b,s,4
+s,e,1
+e,c,8
+e,f,6
+c,d,4
+c,f,5
+d,f,6
+d,g,7
+f,g,4

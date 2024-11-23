@@ -40,3 +40,18 @@ def BFS(graph: list['Node'], starting_node: str) -> list['Node']:
             u_node.color = "black"
     
     return graph
+
+def ConnectedComponents(graph: list['Node']) -> list[set]:
+    connected_components: list[set] = []
+    for node in graph:
+        temp_graph = BFS(graph, node.name)
+        
+        seen = set()
+        for u_node in temp_graph:
+            if u_node.name not in seen and (u_node.color == "black" or u_node.color == "gray"):
+                seen.add(u_node.name)
+
+        if seen not in connected_components:
+            connected_components.append(seen)
+
+    return connected_components

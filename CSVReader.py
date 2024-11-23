@@ -16,7 +16,7 @@ class CSVReader:
     # Makes adjacency list.
     def create_graph(self, file_name):
         full_dir = 'C:\\Users\\gdmas\\OneDrive\\Documents\\Code\\algorithms-project\\csv'
-        with open(f"{full_dir}/{file_name}", 'r') as f:
+        with open(f"{full_dir}\\{file_name}", 'r') as f:
             csv_file: list[list[any]] = csv.reader(f)
             reading_params = self._read_file_name(file_name)
             next(csv_file) # Skip header.
@@ -35,27 +35,40 @@ class CSVReader:
                         if node.name == line[0]:
                             v_node = node
 
-                if line[1] not in seen:
-                    u_node = Node(line[1])
-                    result_list.append(u_node)
-                    v_node.adjacent.append(u_node.name)
-                    v_node.adjacent.sort()
+                if len(line) > 1:
+                    if line[1] not in seen:
+                        u_node = Node(line[1])
+                        result_list.append(u_node)
+                        if reading_params[1]: # if weighted
+                            v_node.adjacent.append((u_node.name, line[2]))
+                        else:
+                            v_node.adjacent.append(u_node.name)
+                        v_node.adjacent.sort()
 
-                    if not reading_params[0]: # if undirected
-                        u_node.adjacent.append(v_node.name)
-                        u_node.adjacent.sort()
-                    seen.add(line[1])
-                else:
-                    for node in result_list:
-                        if node.name == line[1]:
-                            if node.name not in v_node.adjacent:
-                                v_node.adjacent.append(node.name)
-                                v_node.adjacent.sort()
+                        if not reading_params[0]: # if undirected
+                            if reading_params[1]: # if weighted
+                                u_node.adjacent.append((v_node.name, line[2]))
+                            else:
+                                u_node.adjacent.append(v_node.name)
+                            u_node.adjacent.sort()
+                        seen.add(line[1])
+                    else:
+                        for node in result_list:
+                            if node.name == line[1]:
+                                if node.name not in v_node.adjacent:
+                                    if reading_params[1]: # if weighted
+                                        v_node.adjacent.append((node.name, line[2]))
+                                    else:
+                                        v_node.adjacent.append(node.name)
+                                    v_node.adjacent.sort()
 
-                            if not reading_params[0] and v_node.name not in node.adjacent: # if undirected
-                                node.adjacent.append(v_node.name)
-                                node.adjacent.sort()
-                            break
+                                if not reading_params[0] and v_node.name not in node.adjacent: # if undirected
+                                    if reading_params[1]: # if weighted
+                                        node.adjacent.append((v_node.name, line[2]))
+                                    else:
+                                        node.adjacent.append(v_node.name)
+                                    node.adjacent.sort()
+                                break
             f.close()
 
         return result_list
