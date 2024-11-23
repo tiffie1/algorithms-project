@@ -15,8 +15,8 @@ class CSVReader:
 
     # Makes adjacency list.
     def create_graph(self, file_name):
-        full_dir = 'C:\\Users\\gdmas\\OneDrive\\Documents\\Code\\algorithms-project\\csv'
-        with open(f"{full_dir}\\{file_name}", 'r') as f:
+        full_dir = '/media/tiffie/frutiger/Documents/Uni/Code/algorithms/project/csv' 
+        with open(f"{full_dir}/{file_name}", 'r') as f:
             csv_file: list[list[any]] = csv.reader(f)
             reading_params = self._read_file_name(file_name)
             next(csv_file) # Skip header.

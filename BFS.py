@@ -42,6 +42,13 @@ def BFS(graph: list['Node'], starting_node: str) -> list['Node']:
     return graph
 
 def ConnectedComponents(graph: list['Node']) -> list[set]:
+    """
+    Given a graph, collects and prints out every individual connected component.
+
+    :param list[Node] graph: List of nodes that forms the graph
+    :returns: List of connected components.
+    :rtype: list[set]
+    """
     connected_components: list[set] = []
     for node in graph:
         temp_graph = BFS(graph, node.name)
