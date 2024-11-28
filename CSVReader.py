@@ -43,14 +43,12 @@ class CSVReader:
                             v_node.adjacent.append((u_node, line[2]))
                         else:
                             v_node.adjacent.append(u_node)
-                        #v_node.adjacent.sort()
 
                         if not reading_params[0]: # if undirected
                             if reading_params[1]: # if weighted
                                 u_node.adjacent.append((v_node, line[2]))
                             else:
                                 u_node.adjacent.append(v_node)
-                            #u_node.adjacent.sort()
                         seen.add(line[1])
                     else:
                         for node in result_list:
@@ -60,14 +58,12 @@ class CSVReader:
                                         v_node.adjacent.append((node, line[2]))
                                     else:
                                         v_node.adjacent.append(node)
-                                    #v_node.adjacent.sort()
 
                                 if not reading_params[0] and v_node not in node.adjacent: # if undirected
                                     if reading_params[1]: # if weighted
                                         node.adjacent.append((v_node, line[2]))
                                     else:
                                         node.adjacent.append(v_node)
-                                    #node.adjacent.sort()
                                 break
             f.close()
 

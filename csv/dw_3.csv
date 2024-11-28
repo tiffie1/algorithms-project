@@ -1,0 +1,11 @@
+source,target,weight
+shirt,belt,3
+shirt,tie,5
+undershort,shoes,6
+undershort,pants,7
+socks,shoes,1
+pants,shoes,2
+pants,belt,6
+belt,jacket,7
+watch
+tie,jacket,3
