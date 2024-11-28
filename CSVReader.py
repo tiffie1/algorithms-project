@@ -24,7 +24,6 @@ class CSVReader:
             result_list: list['Node'] = list()
             seen = set()
             
-            result_list.append(reading_params) # Metadata for graph.
             # Two elements per line.
             for line in csv_file:
                 if line[0] not in seen:
@@ -44,14 +43,14 @@ class CSVReader:
                             v_node.adjacent.append((u_node, line[2]))
                         else:
                             v_node.adjacent.append(u_node)
-                        v_node.adjacent.sort()
+                        #v_node.adjacent.sort()
 
                         if not reading_params[0]: # if undirected
                             if reading_params[1]: # if weighted
                                 u_node.adjacent.append((v_node, line[2]))
                             else:
                                 u_node.adjacent.append(v_node)
-                            u_node.adjacent.sort()
+                            #u_node.adjacent.sort()
                         seen.add(line[1])
                     else:
                         for node in result_list:
@@ -61,18 +60,18 @@ class CSVReader:
                                         v_node.adjacent.append((node, line[2]))
                                     else:
                                         v_node.adjacent.append(node)
-                                    v_node.adjacent.sort()
+                                    #v_node.adjacent.sort()
 
                                 if not reading_params[0] and v_node not in node.adjacent: # if undirected
                                     if reading_params[1]: # if weighted
                                         node.adjacent.append((v_node, line[2]))
                                     else:
                                         node.adjacent.append(v_node)
-                                    node.adjacent.sort()
+                                    #node.adjacent.sort()
                                 break
             f.close()
 
-        return result_list
+        return [reading_params] + result_list
 
     # directed = True, undirected = False  ;  weighted = True, unweighted = False
     def _read_file_name(self, read_string: str) -> tuple[bool, bool]:

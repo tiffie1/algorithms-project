@@ -8,6 +8,6 @@ def print_graph(graph: list['Node']) -> None:
         print(node)
 
 c_reader = CSVReader()
-graph: list['Node'] = c_reader.create_graph('uw_2.csv')
-print_graph(graph)
-print_graph(DFS(graph))
+graph: list['Node'] = c_reader.create_graph('ul_2.csv')
+print_graph(BFS(graph, "s"))
+#print_graph(DFS(graph))
