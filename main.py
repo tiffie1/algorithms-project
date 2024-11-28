@@ -10,3 +10,4 @@ def print_graph(graph: list['Node']) -> None:
 c_reader = CSVReader()
 graph: list['Node'] = c_reader.create_graph('uw_2.csv')
 print_graph(graph)
+print_graph(DFS(graph))
