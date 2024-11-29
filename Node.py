@@ -1,5 +1,7 @@
+from typing import Union
+
 class Node:
-    def __init__(self, name: any, adjacent: list['Node'] = None, behind: 'Node' = None,
+    def __init__(self, name: any, adjacent: Union[list['Node'], tuple['Node', int]] = None, behind: 'Node' = None,
                  start: int = 0, finalize: int = 0, color: str = ""):
         if adjacent is None:
             adjacent = []
