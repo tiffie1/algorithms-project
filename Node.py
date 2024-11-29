@@ -13,6 +13,9 @@ class Node:
         self.finalize = finalize
         self.color = color
 
+    def __lt__(self, other: 'Node'):
+        return self.start < other.start
+
     def __str__(self):
         final_str = f", f={self.finalize}" if self.finalize != 0 else ""
         behind_str = f", b={self.behind.name}" if self.behind != None else ""

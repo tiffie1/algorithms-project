@@ -10,8 +10,8 @@ def print_graph(graph: list['Node']) -> None:
         print(node)
 
 c_reader = CSVReader()
-graph: list['Node'] = c_reader.create_graph('uw_4.csv')
+graph: list['Node'] = c_reader.create_graph('uw_7.csv')
 print_graph(graph)
-#print_graph(Kruskal(graph))
-#print(Dijkstra(graph, 'a', 'b'))
-print_graph(Dijkstra(graph, 'f', 'b'))
+print_graph(Kruskal(graph))
+#print("\n\n")
+#print(Dijkstra(graph, 'c', 'e'))
