@@ -1,5 +1,6 @@
 from Node import Node
 import csv
+import os, os.path
 
 # File name:
 #   d = directed
@@ -14,7 +15,7 @@ class CSVReader:
         pass
 
     # Makes adjacency list.
-    def create_graph(self, file_name: str) -> list['Node']:
+    def read(self, file_name: str) -> list['Node']:
         """
         Searches for, and creates a graph based on the given CSV file name.
         Returns the array containing all the nodes of the graph, including metadata.
@@ -77,7 +78,7 @@ class CSVReader:
 
         return [reading_params] + result_list
     
-    def write_cmd(self, csv_data: list[str]) -> str:
+    def write(self, csv_data: list[str], metadata: tuple[bool, bool]) -> str:
         """
         Given a list of data written in CSV format, writes into './csv/' with the
         appropriate name.
@@ -85,7 +86,24 @@ class CSVReader:
         :param list[str] csv_data: CSV data to be written.
         :returns: The name of the graph that has just been read.
         """
-        pass
+        c1 = 'd' if metadata[0] == True else 'u' # if directed
+        c2 = 'w' if metadata[1] == True else 'l' # if weighted
+        directory = [similar for similar in os.listdir("./csv/") if similar[0:2] == (c1 + c2)]
+        number_prefix = 0
+        file_name = f"{c1 + c2}_1.csv"
+        while file_name in directory: 
+            number_prefix += 1
+            file_name = f"{c1 + c2}_{number_prefix}.csv"
+        
+        with open(f"./csv/{file_name}", 'a') as f:
+            p = "vertex1,vertex2" if metadata[0] == False else "source,target"
+            if metadata[1] == True: p += ",weight"
+            f.write(f"{p}\n")
+
+            for line in csv_data:
+                f.write(f"{line}\n")
+
+        return file_name
 
     # directed = True, undirected = False  ;  weighted = True, unweighted = False
     def _read_file_name(self, read_string: str) -> tuple[bool, bool]:
