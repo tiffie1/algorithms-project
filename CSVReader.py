@@ -14,7 +14,15 @@ class CSVReader:
         pass
 
     # Makes adjacency list.
-    def create_graph(self, file_name):
+    def create_graph(self, file_name: str) -> list['Node']:
+        """
+        Searches for, and creates a graph based on the given CSV file name.
+        Returns the array containing all the nodes of the graph, including metadata.
+
+        :param str file_name: Name of the file to be read.
+        :returns: Graph list.
+        :rtype: list[Node]
+        """
         full_dir = '/Users/tiffie/Documents/Uni/Code/algorithms-project/csv' 
         with open(f"{full_dir}/{file_name}", 'r') as f:
             csv_file: list[list[any]] = csv.reader(f)
@@ -68,9 +76,26 @@ class CSVReader:
             f.close()
 
         return [reading_params] + result_list
+    
+    def write_cmd(self, csv_data: list[str]) -> str:
+        """
+        Given a list of data written in CSV format, writes into './csv/' with the
+        appropriate name.
+        
+        :param list[str] csv_data: CSV data to be written.
+        :returns: The name of the graph that has just been read.
+        """
+        pass
 
     # directed = True, undirected = False  ;  weighted = True, unweighted = False
     def _read_file_name(self, read_string: str) -> tuple[bool, bool]:
+        """
+        Creates metadata for a graph based on the graph's given name.
+
+        :param str read_string: Name of the file.
+        :returns: Graph metadata.
+        :rtype: tuple[bool, bool]
+        """
         val1 = True if read_string[0] == 'd' else False
         val2 = True if read_string[1] == 'w' else False
 
