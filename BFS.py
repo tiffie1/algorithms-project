@@ -12,9 +12,8 @@ def BFS(graph: list['Node'], starting_node: str = "") -> list['Node']:
     :rtype: list[Node]
     """
     if not graph: return []
-    if starting_node == "": starting_node = graph[1].name
+    if starting_node == "": starting_node = graph[1].name # Default starting node is the first node.
 
-    # TODO: ACCOUNT FOR WEIGHTED GRAPHS.
     for node in graph:
         node_ptr = ResolveNodeReference(node)
 

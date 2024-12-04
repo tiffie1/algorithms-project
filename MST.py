@@ -121,4 +121,4 @@ def Kruskal(graph: list['Node']) -> list['Node']:
             temp_set = {u_node.name, v_node.name}
             board.append(temp_set)
 
-    return [(True, True)] + answer_graph
+    return [(False, True)] + answer_graph

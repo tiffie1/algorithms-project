@@ -8,6 +8,7 @@ import os, os.path
 
 def print_graph(graph: list['Node']) -> None:
     for node in graph:
+        # Print the metadata of a graph in a readable format.
         if type(node) is tuple:
             s1 = "Directed" if node[0] == True else "Undirected"
             s2 = "Weighted" if node[1] == True else "Unweighted"
@@ -15,15 +16,22 @@ def print_graph(graph: list['Node']) -> None:
         else: print(node)
 
 def valid_csv_line(input: str, expected_columns: int) -> tuple[bool, str]:
+    """
+    Given a string, returns whether or not string is a valid CSV line.
+    A valid CSV line is defined as a number of elements seperated by a comma.
+    Ex: `value1,value2,value3`
+
+    :param str input: Input string.
+    :param int expected_columns: Amount of elements per line. Ex: `expected_columns = 2` means an input can only be of form `value1,value2`. Must be either 2 or 3.
+    :returns: Validity of input given.
+    :rtype: bool 
+    """
     values = input.split(",")
 
-    if len(values) != expected_columns:
-        return False, ""
-    
-    if any(value == "" for value in values):
-        return False, ""
-
-    if expected_columns == 3:
+    if len(values) != expected_columns: return False, ""
+    if any(value == "" for value in values): return False, "" # If exist empty values.
+    if expected_columns < 2 or expected_columns > 3: return False, ""
+    if expected_columns == 3: # If expected_columns = 3, CSV is weighted and weight must be int.
         try: int(values[2])
         except ValueError: return False, ""
 
@@ -68,8 +76,13 @@ if __name__ == "__main__":
                         print("Error: Invalid input, please try again.")
                         repeat2 = True
                     else: repeat2 = False
-            
+
             graph_string = directory[user_file_select-1]
+            print(f"\'{graph_string}\':")
+            with open(f"./csv/{graph_string}", 'r') as f:
+                for line in f:
+                    print(f"\t{line}", end="")
+            print("\n\n")
 
         elif user_input == "2":
             repeat2 = True
@@ -149,7 +162,7 @@ if __name__ == "__main__":
     repeat = True
     # graph_string, graph_metadata
     graph = c_reader.read(graph_string)
-    while repeat:
+    while repeat: # Operate on graph.
         repeat = False
         print(f"Graph \'{graph_string}\' selected. Choose what operation " +
               f"you'd like to do perform on \'{graph_string}\':\n" +
@@ -159,7 +172,7 @@ if __name__ == "__main__":
               "\t(4) DetectCycle: Print whether the graph has a cycle (graph must be undirected).\n" +
               "\t(5) TopologicalSort: Print topologically sorted list based on graph (graph must be directed).\n" +
               "\t(6) Kruskal: Print MST of the graph (graph must be weighted and undirected).\n" +
-              "\t(7) Dijkstra: Print shortest path between two vertices (graph must be weighted and undirected).\n" +
+              "\t(7) Dijkstra: Print shortest path between two vertices (graph must be weighted).\n" +
               "\t(8) Print graph.\n" +
               "\t(9) Quit program.")
         user_input = input("\nSelection: ")
@@ -169,7 +182,7 @@ if __name__ == "__main__":
             print("--- BFS ---")
             repeat2 = True
             nodes = [node.name for node in graph if type(node) != tuple]
-            while repeat2:
+            while repeat2: # Choose starting node.
                 repeat2 = False
                 print_graph(graph)
                 print("\n")
@@ -238,8 +251,8 @@ if __name__ == "__main__":
             repeat = True
 
         elif user_input == "7":
-            if graph[0][1] == False or graph[0][0] == True:
-                print("Cannot do. Graph is unweighted or directed.")
+            if graph[0][1] == False:
+                print("Cannot do. Graph is unweighted.")
             else:
                 print("--- Shortest Path ---")
                 nodes = [node.name for node in graph if type(node) != tuple]
@@ -270,6 +283,7 @@ if __name__ == "__main__":
                         repeat2 = True
                 target = user_input2
 
+                print("\n---")
                 print(Dijkstra(graph, source, target))
                 print("\n\n")
             repeat = True
