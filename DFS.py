@@ -4,6 +4,7 @@ from ResolveNodeReference import ResolveNodeReference
 TIME = 0
 def DFS(graph: list['Node']) -> list['Node']:
     global TIME
+    TIME = 0
 
     def DFS_Visit(graph: list['Node'], u_node: 'Node') -> None:
         global TIME
@@ -42,37 +43,51 @@ def DFS(graph: list['Node']) -> list['Node']:
     return graph
 
 def CycleDetection(graph: list['Node']) -> bool:
-    mod_graph = DFS(graph)
+    global TIME
+    TIME = 0
 
-    """
-    This works because, if two nodes are connected,
-    and u is not a parent of v and vice versa,
-    then there is some path that you can take that
-    connects both u and v to the root.
-    There is also a connection between u and v,
-    meaning there is some cycle between u, v, and the root.
-    """
-    if graph[0][0] == True: return None
+    def DFS_Visit(graph: list['Node'], u_node: 'Node') -> None:
+        global TIME
 
-    for u_node in mod_graph:
-        u_node_ptr = ResolveNodeReference(u_node)
+        u_node.color = "gray"
+        TIME += 1
+        u_node.start = TIME
 
-        if u_node_ptr is not None:
-            for v_node in u_node.adjacent:
-                v_node_ptr = ResolveNodeReference(v_node)
+        for v_node in u_node.adjacent:
+            v_node = ResolveNodeReference(v_node)
+            if v_node:
+                if v_node.color == "white":
+                    v_node.behind = u_node
+                    if DFS_Visit(graph, v_node): return True
+                    else: continue
+                elif v_node.color == "gray": return True
 
-                if v_node_ptr is not None:
-                    if (v_node_ptr.behind == None) or (u_node_ptr.behind == None):
-                        if ((v_node_ptr.behind == None) and (u_node_ptr.behind.name != v_node_ptr.name)) \
-                            or ((u_node_ptr.behind == None) and (v_node_ptr.behind.name != u_node_ptr.name)):
-                            return True
-                    elif (v_node_ptr.behind.name != u_node_ptr.name) and (u_node_ptr.behind.name != v_node_ptr.name):
-                        return True
-            
+        u_node.color = "black"
+        TIME += 1
+        u_node.finalize = TIME  
+
+        return False
+
+
+    for u_node in graph:
+        u_node = ResolveNodeReference(u_node)
+        if u_node:
+            u_node.color = "white"
+            u_node.behind = None
+
+    for u_node in graph:
+        u_node = ResolveNodeReference(u_node)
+        if u_node:
+            if u_node.color == "white":
+                if DFS_Visit(graph, u_node): return True
+                else: continue
+
     return False
 
 def TopologicalSort(graph: list['Node']) -> list[str]:
+    if CycleDetection(graph): return []
     global TIME
+    TIME = 0
 
     def DFS_Visit(graph: list['Node'], u_node: 'Node', result_list: list[str]) -> None:
         global TIME

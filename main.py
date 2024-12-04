@@ -28,6 +28,7 @@ def valid_csv_line(input: str, expected_columns: int) -> tuple[bool, str]:
     """
     values = input.split(",")
 
+    if len(values) == 1: return True, input.replace(" ", "")
     if len(values) != expected_columns: return False, ""
     if any(value == "" for value in values): return False, "" # If exist empty values.
     if expected_columns < 2 or expected_columns > 3: return False, ""
@@ -55,7 +56,18 @@ if __name__ == "__main__":
         if user_input == "1":
             repeat2 = True
             directory = os.listdir("./csv/")
-            directory.sort()
+            
+            prefixes = dict()
+            for file in directory:
+                prefix = file.split("_")[0]
+                if prefix not in prefixes: prefixes[prefix] = []
+                prefixes[prefix].append(file)
+
+            directory = []
+            for prefix, file_list in prefixes.items():
+                sorted_list = sorted(file_list, key = lambda x: int(x.split("_")[1].split(".")[0]))
+                directory.extend(sorted_list)
+            
             while repeat2: # Choose existing file.
                 i = 0
                 repeat2 = False
@@ -169,8 +181,8 @@ if __name__ == "__main__":
               "\t(1) BFS: Run BFS and print graph.\n" +
               "\t(2) DFS: Run DFS and print graph.\n" +
               "\t(3) ConnectedComponents: Print connected components (graph must be undirected).\n" +
-              "\t(4) DetectCycle: Print whether the graph has a cycle (graph must be undirected).\n" +
-              "\t(5) TopologicalSort: Print topologically sorted list based on graph (graph must be directed).\n" +
+              "\t(4) DetectCycle: Print whether the graph has a cycle (graph must be directed).\n" +
+              "\t(5) TopologicalSort: Print topologically sorted list based on graph (graph must be directed and not have a cycle).\n" +
               "\t(6) Kruskal: Print MST of the graph (graph must be weighted and undirected).\n" +
               "\t(7) Dijkstra: Print shortest path between two vertices (graph must be weighted).\n" +
               "\t(8) Print graph.\n" +
@@ -218,8 +230,8 @@ if __name__ == "__main__":
             repeat = True
 
         elif user_input == "4":
-            if graph[0][0] == True:
-                print("Cannot do. Graph is directed.")
+            if graph[0][0] == False:
+                print("Cannot do. Graph is undirected.")
             else:
                 print("--- Cycle Detection ---")
                 print_graph(graph)
