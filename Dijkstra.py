@@ -1,6 +1,5 @@
 from Node import *
 from ResolveNodeReference import *
-from main import print_graph
 import heapq
 
 def Dijkstra(graph: list['Node'], source: str, target: str) -> list[str]:
@@ -34,8 +33,6 @@ def Dijkstra(graph: list['Node'], source: str, target: str) -> list[str]:
                     node.behind = current_node
                     heapq.heapify(unseen)
     
-    print_graph(graph)
-
     result_path: list[str] = []
     total_weight = 0
     if target_node.behind:
