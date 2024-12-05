@@ -24,8 +24,7 @@ class CSVReader:
         :returns: Graph list.
         :rtype: list[Node]
         """
-        full_dir = '/Users/tiffie/Documents/Uni/Code/algorithms-project/csv' 
-        with open(f"{full_dir}/{file_name}", 'r') as f:
+        with open(f"./csv/{file_name}", 'r') as f:
             csv_file: list[list[any]] = csv.reader(f)
             reading_params = self._read_file_name(file_name)
             next(csv_file) # Skip header.
