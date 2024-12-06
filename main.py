@@ -7,6 +7,11 @@ from Dijkstra import *
 import os, os.path
 
 def print_graph(graph: list['Node']) -> None:
+    """
+    Prints every node in a graph, alongside its metadata.
+
+    :param list[Node] graph: The graph to be printed.
+    """
     for node in graph:
         # Print the metadata of a graph in a readable format.
         if type(node) is tuple:

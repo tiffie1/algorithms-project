@@ -3,6 +3,12 @@ from ResolveNodeReference import ResolveNodeReference
 
 TIME = 0
 def DFS(graph: list['Node']) -> list['Node']:
+    """
+    Given a graph, calculates the start and finalize times for each node
+    using Depth-First Search.
+
+    :param list[Node] graph: Graph to be processed.
+    """
     global TIME
     TIME = 0
 
@@ -43,6 +49,9 @@ def DFS(graph: list['Node']) -> list['Node']:
     return graph
 
 def CycleDetection(graph: list['Node']) -> bool:
+    """
+    Uses DFS to determine whether a graph has a cycle.
+    """
     global TIME
     TIME = 0
 
@@ -60,7 +69,7 @@ def CycleDetection(graph: list['Node']) -> bool:
                     v_node.behind = u_node
                     if DFS_Visit(graph, v_node): return True
                     else: continue
-                elif v_node.color == "gray": return True
+                elif v_node.color == "gray": return True # We found the cycle.
 
         u_node.color = "black"
         TIME += 1
@@ -85,6 +94,12 @@ def CycleDetection(graph: list['Node']) -> bool:
     return False
 
 def TopologicalSort(graph: list['Node']) -> list[str]:
+    """
+    Given a directed acyclic graph, determines the topological order of the nodes within the graph.
+
+    :returns: The topological order of the graph as a list of the strings of the names of the nodes.
+    :rtype: list[str]
+    """
     if CycleDetection(graph): return []
     global TIME
     TIME = 0

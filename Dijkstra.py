@@ -9,7 +9,7 @@ def Dijkstra(graph: list['Node'], source: str, target: str) -> list[str]:
     for node in graph:
         node_ptr = ResolveNodeReference(node)
 
-        if node_ptr is not None:
+        if node_ptr is not None: # Find target and source in graph.
             if node_ptr.name == source: source_node = node
             elif node_ptr.name == target: target_node = node
 
@@ -24,7 +24,7 @@ def Dijkstra(graph: list['Node'], source: str, target: str) -> list[str]:
     heapq.heapify(unseen) # Use node.start as comparisson value.
 
     while unseen: # Calculate distances.
-        current_node = heapq.heappop(unseen)
+        current_node = heapq.heappop(unseen) # Take lowest value element.
         if current_node is target_node: break
         for node, weight in current_node.adjacent:
             if node in unseen:
@@ -37,7 +37,8 @@ def Dijkstra(graph: list['Node'], source: str, target: str) -> list[str]:
     total_weight = 0
     if target_node.behind:
         current_node = target_node
-        while current_node.behind is not None:
+        while current_node.behind is not None: # Save path from target to source.
+            # Save the correct weight in the adjacent list.
             weight = [element[1] for element in current_node.behind.adjacent if element[0].name == current_node.name]
             total_weight += int(weight[0])
             result_path.append(f"{current_node.behind.name} -({weight[0]})-> {current_node.name}")
